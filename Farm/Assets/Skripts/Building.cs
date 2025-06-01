@@ -54,12 +54,14 @@ public class Building : MonoBehaviour
 
     }
 
-    private void FinishBuilding() //Завершение стройки послек того, как прошла стройка
+    public void FinishBuilding() //Завершение стройки послек того, как прошла стройка
     {
+
+        animator.Play("Idle");
         isBuild = true;
         spriteRenderer.sprite = readySprite;
         ChangeColider();
-     
+
     }
 
     private int Destroy(int money) // Разрушение объекта, возвращение денег

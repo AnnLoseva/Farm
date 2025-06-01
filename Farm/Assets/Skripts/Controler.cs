@@ -34,7 +34,6 @@ public class Controler : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("click " + hit.collider.gameObject.name);
 
             if (hit.collider.CompareTag("Building"))
             {

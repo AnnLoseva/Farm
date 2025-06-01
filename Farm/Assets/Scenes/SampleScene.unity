@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2149413f22ff28b49a51f3b86c339ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 1
+  price: 5
   buildTime: 3
   emptySprite: {fileID: 6148613308256291239, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}
   buildingSprite: {fileID: 9070406520937243622, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}
@@ -653,6 +653,7 @@ GameObject:
   - component: {fileID: 632272534}
   - component: {fileID: 632272533}
   - component: {fileID: 632272536}
+  - component: {fileID: 632272537}
   m_Layer: 0
   m_Name: Building
   m_TagString: Building
@@ -672,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2149413f22ff28b49a51f3b86c339ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 1
+  price: 5
   buildTime: 3
   emptySprite: {fileID: 6148613308256291239, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}
   buildingSprite: {fileID: 9070406520937243622, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}
@@ -830,6 +831,28 @@ PolygonCollider2D:
       - {x: 0.82375, y: -0.7474991}
       - {x: 0.91125005, y: -0.7099991}
   m_UseDelaunayMesh: 0
+--- !u!95 &632272537
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632272532}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2427b4a653589d847836f82a23b6e243, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1176897424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,7 +1048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2149413f22ff28b49a51f3b86c339ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 1
+  price: 5
   buildTime: 3
   emptySprite: {fileID: 6148613308256291239, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}
   buildingSprite: {fileID: 9070406520937243622, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}

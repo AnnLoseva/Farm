@@ -1,5 +1,6 @@
 using System.Data.SqlTypes;
 using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -19,8 +20,9 @@ public class Building : MonoBehaviour
 
     private void Start()
     {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = emptySprite;
+        ChangeColider();
     }
 
     private void Update()
@@ -30,10 +32,7 @@ public class Building : MonoBehaviour
             currentBuildingTime += Time.deltaTime;
             if(currentBuildingTime > buildTime)
             {
-                isBuilding = false;
-                currentBuildingTime = 0;
-                isBuild = true;
-                spriteRenderer.sprite = readySprite;
+                FinishBuilding();
             }
         }
     }
@@ -43,8 +42,12 @@ public class Building : MonoBehaviour
 
         if (!isBuild & !isBuilding)
         {
-            Build(money);
+            money = Build(money);
 
+        }
+        else if(isBuild)
+        {
+            money = Destroy(money);
         }
 
         return money;
@@ -54,14 +57,46 @@ public class Building : MonoBehaviour
     {
         if (money >= price)
         {
+            Debug.Log(money);
             money -= price;
             spriteRenderer.sprite = buildingSprite;
             isBuilding = true;
-            Debug.Log(money);
+            
 
         }
 
         return money;
 
+    }
+
+    private void FinishBuilding()
+    {
+        isBuilding = false;
+        currentBuildingTime = 0;
+        isBuild = true;
+        spriteRenderer.sprite = readySprite;
+        ChangeColider();
+     
+    }
+
+    private int Destroy(int money)
+    {
+        money += price;
+        isBuild = false;
+        spriteRenderer.sprite = emptySprite;
+        ChangeColider();
+
+        return money; 
+    }
+
+    private void ChangeColider()
+    {
+        PolygonCollider2D collider = GetComponent<PolygonCollider2D>();
+
+        if (collider != null)
+        {
+            Destroy(collider); // удалить старую форму
+            gameObject.AddComponent<PolygonCollider2D>(); // добавить новую по новому спрайту
+        }
     }
 }

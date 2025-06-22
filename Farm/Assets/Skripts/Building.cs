@@ -1,6 +1,7 @@
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -32,21 +33,34 @@ public class Building : MonoBehaviour
             money = Build(money);
 
         }
-        else if(isBuild)
+        else if(isBuild && !animator.GetBool("Is Working"))
         {
-            money = Destroy(money);
+            StartWork();
         }
 
         return money;
     }
 
+    private void StartWork()
+    {
+        Debug.Log("---------------------Working!!!!--------------------");
+        animator.SetBool("Is Working", true);
+    }
+
+    private void FinishWork()
+    {
+        Debug.Log("-------------Finished!!!!-------------------");
+        animator.SetBool("Is Working", false);
+    }
+
+    #region Building
     private int Build(int money) //Начало стройки, вычитание цены от суммы
     {
         if (money >= price)
         {
             Debug.Log(money);
             money -= price;
-            animator.Play("Building Works");
+            animator.SetTrigger("Start Building");
 
         }
 
@@ -57,24 +71,12 @@ public class Building : MonoBehaviour
     public void FinishBuilding() //Завершение стройки послек того, как прошла стройка
     {
 
-        animator.Play("Idle");
+        animator.SetTrigger("Finish Building");
         isBuild = true;
         spriteRenderer.sprite = readySprite;
         ChangeColider();
 
     }
-
-    private int Destroy(int money) // Разрушение объекта, возвращение денег
-    {
-        money += price;
-        isBuild = false;
-        spriteRenderer.sprite = emptySprite;
-        ChangeColider();
-
-        return money; 
-    }
-
-
 
     private void ChangeColider()  //Смена коллайдера при смене спрайта
     {
@@ -86,4 +88,9 @@ public class Building : MonoBehaviour
             gameObject.AddComponent<PolygonCollider2D>(); // добавить новую по новому спрайту
         }
     }
+
+    #endregion Building
+
+
+
 }

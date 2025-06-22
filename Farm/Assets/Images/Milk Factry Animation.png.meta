@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: 1479e711627d2914493e7d4741937842
+guid: d64ed40dc7a11894c8b61bd82ae031ee
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4010230378033190656
-    second: Isometric Assets 3_0
+      213: -6838333502184172655
+    second: Milk Factry Animation_0
   - first:
-      213: 3567885232665830233
-    second: Isometric Assets 3_1
+      213: -5379286315297378638
+    second: Milk Factry Animation_1
   - first:
-      213: 7886180600961645677
-    second: Isometric Assets 3_2
+      213: 8614651091975920060
+    second: Milk Factry Animation_2
   - first:
-      213: -7271712228810817167
-    second: Isometric Assets 3_3
+      213: 3607834739283423403
+    second: Milk Factry Animation_3
   - first:
-      213: 7158809325778772788
-    second: Isometric Assets 3_4
+      213: -5712420512297932860
+    second: Milk Factry Animation_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -63,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 12
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,10 +84,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Isometric Assets 3_0
+      name: Milk Factry Animation_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 1570
-        width: 908
-        height: 943
+        x: 7
+        y: 4
+        width: 57
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 007162e184337a730800000000000000
-      internalID: 4010230378033190656
+      spriteID: 193d8aa29eb5911a0800000000000000
+      internalID: -6838333502184172655
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Isometric Assets 3_1
+      name: Milk Factry Animation_1
       rect:
         serializedVersion: 2
-        x: 1284
-        y: 1746
-        width: 12
-        height: 22
+        x: 71
+        y: 4
+        width: 57
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 953a86437bca38130800000000000000
-      internalID: 3567885232665830233
+      spriteID: 2be649fc89fe855b0800000000000000
+      internalID: -5379286315297378638
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Isometric Assets 3_2
+      name: Milk Factry Animation_2
       rect:
         serializedVersion: 2
-        x: 1299
-        y: 1299
-        width: 984
-        height: 1220
+        x: 135
+        y: 4
+        width: 57
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,20 +184,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d6c35ea4977517d60800000000000000
-      internalID: 7886180600961645677
+      spriteID: cb9d72996836d8770800000000000000
+      internalID: 8614651091975920060
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Isometric Assets 3_3
+      name: Milk Factry Animation_3
       rect:
         serializedVersion: 2
-        x: 83
-        y: 529
-        width: 919
-        height: 976
+        x: 199
+        y: 4
+        width: 57
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,20 +206,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1710edc4140b51b90800000000000000
-      internalID: -7271712228810817167
+      spriteID: ba07d4b849a911230800000000000000
+      internalID: 3607834739283423403
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Isometric Assets 3_4
+      name: Milk Factry Animation_4
       rect:
         serializedVersion: 2
-        x: 1544
-        y: 805
-        width: 244
-        height: 428
+        x: 263
+        y: 4
+        width: 57
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,8 +228,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4332ccd1723395360800000000000000
-      internalID: 7158809325778772788
+      spriteID: 4c7a3dc4fc769b0b0800000000000000
+      internalID: -5712420512297932860
       vertices: []
       indices: 
       edges: []
@@ -248,11 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Isometric Assets 3_0: 4010230378033190656
-      Isometric Assets 3_1: 3567885232665830233
-      Isometric Assets 3_2: 7886180600961645677
-      Isometric Assets 3_3: -7271712228810817167
-      Isometric Assets 3_4: 7158809325778772788
+      Milk Factry Animation_0: -6838333502184172655
+      Milk Factry Animation_1: -5379286315297378638
+      Milk Factry Animation_2: 8614651091975920060
+      Milk Factry Animation_3: 3607834739283423403
+      Milk Factry Animation_4: -5712420512297932860
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -15,6 +15,7 @@ public class Building : MonoBehaviour
     private bool isBuild;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private BuildingUIAnchor uIAnchor;
 
     private void Start()
     {
@@ -22,8 +23,24 @@ public class Building : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = emptySprite;
         ChangeColider();
+        uIAnchor = GetComponent<BuildingUIAnchor>();
     }
 
+    public int RightClick(int money) // Любой клик по зданию
+    {
+
+        if (!isBuild)
+        {
+            
+
+        }
+        else if (isBuild && !animator.GetBool("Is Working"))
+        {
+            uIAnchor.ShowPopup();
+        }
+
+        return money;
+    }
 
     public int Click(int money) // Любой клик по зданию
     {
@@ -41,7 +58,7 @@ public class Building : MonoBehaviour
         return money;
     }
 
-    private void StartWork()
+    public void StartWork()
     {
         Debug.Log("---------------------Working!!!!--------------------");
         animator.SetBool("Is Working", true);

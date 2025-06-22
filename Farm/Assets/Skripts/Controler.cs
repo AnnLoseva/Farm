@@ -19,6 +19,11 @@ public class Controler : MonoBehaviour
             DetectClick(Input.mousePosition);
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            RightClick(Input.mousePosition);
+        }
+
         // Тап (мобилка)
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
@@ -42,6 +47,25 @@ public class Controler : MonoBehaviour
                 moneyText.text = money.ToString();
             }
                 
+        }
+    }
+
+
+    void RightClick(Vector2 screenPosition)
+    {
+        Vector2 worldPoint = Camera.main.ScreenToWorldPoint(screenPosition);
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+
+            if (hit.collider.CompareTag("Building"))
+            {
+                Building building = hit.collider.GetComponent<Building>();
+                money = building.RightClick(money);
+            }
+
         }
     }
 }

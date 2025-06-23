@@ -16,6 +16,7 @@ public class Building : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private UIManager uiManager;
+    private Inventory inventory;
 
     private void Start()
     {
@@ -24,64 +25,49 @@ public class Building : MonoBehaviour
         spriteRenderer.sprite = emptySprite;
         ChangeColider();
         uiManager = FindAnyObjectByType<UIManager>();
+        inventory = FindAnyObjectByType<Inventory>();
     }
 
-    public int RightClick(int money) // Любой клик по зданию
+    public void RightClick() // Любой клик по зданию
     {
 
-        if (!isBuild)
-        {
-            
-
-        }
-        else if (isBuild && !animator.GetBool("Is Working"))
+        if (isBuild && !animator.GetBool("Is Working"))
         {
             uiManager.Show(this);
         }
-
-        return money;
     }
 
-    public int Click(int money) // Любой клик по зданию
+    public void Click() // Любой клик по зданию
     {
 
         if (!isBuild )
         {
-            money = Build(money);
+            Build();
 
         }
-        else if(isBuild && !animator.GetBool("Is Working"))
-        {
-        }
 
-        return money;
     }
 
     public void StartWork()
     {
-        Debug.Log("---------------------Working!!!!--------------------");
         animator.SetBool("Is Working", true);
     }
 
     private void FinishWork()
     {
-        Debug.Log("-------------Finished!!!!-------------------");
+        inventory.UseMoney(1);
         animator.SetBool("Is Working", false);
     }
 
     #region Building
-    private int Build(int money) //Начало стройки, вычитание цены от суммы
+    private void Build() //Начало стройки, вычитание цены от суммы
     {
-        if (money >= price)
+        if (inventory.CheckMoney() >= price)
         {
-            Debug.Log(money);
-            money -= price;
+            inventory.UseMoney(-price);
             animator.SetTrigger("Start Building");
 
         }
-
-        return money;
-
     }
 
     public void FinishBuilding() //Завершение стройки послек того, как прошла стройка

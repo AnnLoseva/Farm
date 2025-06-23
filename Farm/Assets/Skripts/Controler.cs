@@ -97,8 +97,7 @@ public class Controler : MonoBehaviour
                 Building released = GetBuildingUnderCursor(Input.mousePosition);
                 if (released != null && released == pressedBuilding)
                 {
-                    money = released.Click(money);
-                    moneyText.text = money.ToString();
+                    released.Click();
                 }
                 else
                 {
@@ -113,11 +112,10 @@ public class Controler : MonoBehaviour
         // ѕ ћ Ч сразу выполн€ем действие
         if (Input.GetMouseButtonDown(1))
         {
-            Building b = GetBuildingUnderCursor(Input.mousePosition);
-            if (b != null)
+            Building building = GetBuildingUnderCursor(Input.mousePosition);
+            if (building != null)
             {
-                money = b.RightClick(money);
-                moneyText.text = money.ToString();
+                building.RightClick();
             }
         }
     }

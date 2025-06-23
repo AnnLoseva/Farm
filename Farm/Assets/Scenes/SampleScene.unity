@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 226569994}
   - component: {fileID: 226569997}
   - component: {fileID: 226569998}
+  - component: {fileID: 226569999}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -231,6 +232,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipePopupUI: {fileID: 1331318828}
   extraOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &226569999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226569993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fe7998e3825e648a5b8fcd52367033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slots: []
+  maxSlots: 20
+  money: 100
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,7 +1061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -321318036669055807, guid: 0a643a6c83b235b4d9dffee8339a8d32, type: 3}
+  m_Sprite: {fileID: -2421343691936151383, guid: 97748482d66cca34e944122babafcfcf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1080,7 +1096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1331318829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1267,7 +1283,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -973856021153267085, guid: 335fee3725ccab9428c730519c378f20, type: 3}
+  m_Sprite: {fileID: -2821042892349479055, guid: 97748482d66cca34e944122babafcfcf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1533,7 +1549,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2813729396058215785, guid: 83aa02bf56fc52942aeb7069616ff22c, type: 3}
+  m_Sprite: {fileID: -7573354855677281409, guid: 97748482d66cca34e944122babafcfcf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

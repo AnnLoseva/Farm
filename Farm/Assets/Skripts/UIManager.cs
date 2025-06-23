@@ -28,16 +28,20 @@ public class UIManager : MonoBehaviour
         UpdatePosition();
     }
 
+    public void Work()
+    {
+        if (myBuilding != null)
+        {
+            myBuilding.StartWork();
+            myBuilding = null;
+        }
+    }
+
     public void Hide()
     {
         recipePopupUI.SetActive(false);
         targetSr = null;
 
-        if(myBuilding != null)
-        {
-            myBuilding.StartWork();
-            myBuilding = null;
-        }
     }
 
     void Update()
@@ -53,4 +57,6 @@ public class UIManager : MonoBehaviour
         Vector3 screenPos = cam.WorldToScreenPoint(topRight);
         uiRect.position = screenPos + extraOffset;
     }
+
+    
 }

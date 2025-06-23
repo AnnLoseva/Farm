@@ -21,18 +21,19 @@ public class Controler : MonoBehaviour
     private bool isDraggingCamera;
     private bool leftClickEligible;
     private Building pressedBuilding;
+    private UIManager uiManager;
 
     private void Start()
     {
         cam = Camera.main;
         moneyText.text = money.ToString();
+        uiManager = GetComponent<UIManager>();
     }
 
     private void Update()
     {
         HandleCameraDrag();
         HandleMouseClicks();
-        HandleTouchClicks();
     }
 
     private void HandleCameraDrag()
@@ -99,6 +100,10 @@ public class Controler : MonoBehaviour
                     money = released.Click(money);
                     moneyText.text = money.ToString();
                 }
+                else
+                {
+                    uiManager.Hide();
+                }
             }
 
             leftClickEligible = false;
@@ -114,42 +119,6 @@ public class Controler : MonoBehaviour
                 money = b.RightClick(money);
                 moneyText.text = money.ToString();
             }
-        }
-    }
-
-    private void HandleTouchClicks()
-    {
-        if (Input.touchCount == 0) return;
-        Touch t = Input.GetTouch(0);
-
-        if (t.phase == TouchPhase.Began)
-        {
-            pointerDownPos = t.position;
-            leftClickEligible = true;
-            pressedBuilding = GetBuildingUnderCursor(t.position);
-        }
-        else if (t.phase == TouchPhase.Moved)
-        {
-            if (leftClickEligible &&
-                Vector2.Distance(t.position, pointerDownPos) > dragThreshold)
-            {
-                leftClickEligible = false;
-            }
-        }
-        else if (t.phase == TouchPhase.Ended)
-        {
-            if (leftClickEligible)
-            {
-                Building released = GetBuildingUnderCursor(t.position);
-                if (released != null && released == pressedBuilding)
-                {
-                    money = released.Click(money);
-                    moneyText.text = money.ToString();
-                }
-            }
-
-            leftClickEligible = false;
-            pressedBuilding = null;
         }
     }
 

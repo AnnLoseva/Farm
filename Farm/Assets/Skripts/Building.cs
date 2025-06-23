@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using Unity.VisualScripting;
@@ -8,8 +9,11 @@ using Debug = UnityEngine.Debug;
 
 public class Building : MonoBehaviour
 {
+    [Header("Production")]
+    [Tooltip("Рецепты, которые может выполнять это здание")]
+    public List<Recipe> availableRecipes;
+
     [SerializeField] private int price;
-    [SerializeField] private Sprite emptySprite;
     [SerializeField] private Sprite readySprite;
 
     private bool isBuild;
@@ -23,7 +27,6 @@ public class Building : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = emptySprite;
         ChangeColider();
         uiManager = FindAnyObjectByType<UIManager>();
         inventory = FindAnyObjectByType<Inventory>();

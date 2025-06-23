@@ -1,15 +1,18 @@
+using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager I;
-    public GameObject recipePopupUI;
+    [Header("Popup и кнопки")]
+    public GameObject recipePopupUI;          // сама панелька
+    public List<Button> recipeButtons;        // ссылки на все кнопки-слоты в инспекторе
     public Vector3 extraOffset = Vector3.zero;
 
     private RectTransform uiRect;
     private Camera cam;
-    private SpriteRenderer targetSr;
-    Building myBuilding;
+    private Building currentBuilding;
 
 
     void Awake()
@@ -20,43 +23,83 @@ public class UIManager : MonoBehaviour
         recipePopupUI.SetActive(false);
     }
 
+    /// <summary>
+    /// Открыть поп-ап и «заполнить» кнопки рецептами
+    /// </summary>
     public void Show(Building building)
     {
-        targetSr = building.GetComponent<SpriteRenderer>();
+        currentBuilding = building;
         recipePopupUI.SetActive(true);
-        myBuilding = building;
+
+        // Получаем список рецептов из здания
+        List<Recipe> recipes = building.availableRecipes;
+
+        // Проходим по всем нашим заранее созданным кнопкам
+        for (int i = 0; i < recipeButtons.Count; i++)
+        {
+            var btn = recipeButtons[i];
+
+            if (i < recipes.Count)
+            {
+                // 1) Включаем кнопку и очищаем старые слушатели
+                btn.gameObject.SetActive(true);
+                btn.onClick.RemoveAllListeners();
+
+                // 2) Захватываем локальную копию recipe для замыкания
+                Recipe r = recipes[i];
+
+                // 3) Меняем  картинку
+                
+                // если у тебя есть иконка в рецепте:
+                 btn.GetComponent<Image>().sprite = r.result.icon;
+
+                // 4) Назначаем вызов Work(r)
+                btn.onClick.AddListener(() =>
+                {
+                    Work(r);
+                    Hide();
+                });
+            }
+            else
+            {
+                // Отключаем все «лишние» кнопки
+                btn.gameObject.SetActive(false);
+            }
+        }
+
         UpdatePosition();
     }
 
+
     public void Work(Recipe recipe)
     {
-        if (myBuilding != null)
+        if (currentBuilding != null)
         {
-            myBuilding.StartWork(recipe);
-            myBuilding = null;
+            currentBuilding.StartWork(recipe);
+            currentBuilding = null;
         }
     }
 
     public void Hide()
     {
         recipePopupUI.SetActive(false);
-        targetSr = null;
-
+        currentBuilding = null;
     }
 
     void Update()
     {
-        if (recipePopupUI.activeSelf && targetSr != null)
+        if (recipePopupUI.activeSelf && currentBuilding != null)
             UpdatePosition();
     }
 
-    void UpdatePosition()
+    private void UpdatePosition()
     {
-        Bounds b = targetSr.bounds;
+        var sr = currentBuilding.GetComponent<SpriteRenderer>();
+        Bounds b = sr.bounds;
         Vector3 topRight = new Vector3(b.max.x, b.max.y, 0);
         Vector3 screenPos = cam.WorldToScreenPoint(topRight);
         uiRect.position = screenPos + extraOffset;
     }
 
-    
+
 }

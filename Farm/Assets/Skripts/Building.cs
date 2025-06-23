@@ -54,13 +54,20 @@ public class Building : MonoBehaviour
 
     public void StartWork(Recipe recipe)
     {
-        animator.SetBool("Is Working", true);
-        // Списываем ингредиенты из инвентаря
+        // 1) Новое: проверяем наличие ингредиентов
+        if (!inventory.HasIngredients(recipe))
+        {
+            Debug.LogWarning($"Не хватает ингредиентов для {recipe.recipeName}");
+            return;
+        }
+
+        // 2) Списываем ингредиенты
         foreach (var ing in recipe.ingredients)
-            inventory.RemoveItem(ing.item, ing.amount);    
+            inventory.RemoveItem(ing.item, ing.amount);
 
+        // 3) Запускаем анимацию работы
+        animator.SetBool("Is Working", true);
         currentRecipe = recipe;
-
     }
 
     private void FinishWork()

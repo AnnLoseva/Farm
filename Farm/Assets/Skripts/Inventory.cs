@@ -71,6 +71,26 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public bool HasIngredients(Recipe recipe)
+    {
+        foreach (var ing in recipe.ingredients)
+            if (!HasItem(ing.item, ing.amount))
+                return false;
+        return true;
+    }
+
+    // Проверить, есть ли в инвентаре хотя бы count штук item
+    public bool HasItem(Item item, int count = 1)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item == item && slot.amount >= count)
+                return true;
+        }
+        return false;
+    }
+
+
     public int CheckMoney()
     {
         return money;

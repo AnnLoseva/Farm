@@ -231,6 +231,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipePopupUI: {fileID: 1331318828}
+  recipeButtons:
+  - {fileID: 1706287689}
+  - {fileID: 1183064188}
+  - {fileID: 1466459248}
   extraOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &226569999
 MonoBehaviour:
@@ -520,8 +524,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2149413f22ff28b49a51f3b86c339ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  availableRecipes:
+  - {fileID: 11400000, guid: 37d8eb78e92f8a54c88f7a3077d0c0e6, type: 2}
   price: 5
-  emptySprite: {fileID: -3746904818367130765, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}
   readySprite: {fileID: -6838333502184172655, guid: d64ed40dc7a11894c8b61bd82ae031ee, type: 3}
 --- !u!212 &632272534
 SpriteRenderer:
@@ -783,8 +788,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2149413f22ff28b49a51f3b86c339ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  availableRecipes: []
   price: 5
-  emptySprite: {fileID: -3746904818367130765, guid: 267b03d9ed9555d43989fc84eeff7274, type: 3}
   readySprite: {fileID: -6838333502184172655, guid: d64ed40dc7a11894c8b61bd82ae031ee, type: 3}
 --- !u!212 &893651358
 SpriteRenderer:
@@ -1018,31 +1023,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1183064189}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 226569998}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Hide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 226569998}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Work
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 37d8eb78e92f8a54c88f7a3077d0c0e6, type: 2}
-          m_ObjectArgumentAssemblyTypeName: Recipe, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1183064189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,31 +1221,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1466459249}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 226569998}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Hide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 226569998}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Work
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1466459249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1506,31 +1463,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1706287690}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 226569998}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Hide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 226569998}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Work
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: Recipe, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1706287690
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,70 +3,162 @@ using UnityEngine.UI;
 
 public class Controler : MonoBehaviour
 {
+    [Header("Money & UI")]
     [SerializeField] private int money = 10;
     [SerializeField] private Text moneyText;
 
+    [Header("Camera Drag Settings")]
+    [Tooltip("0 = левая, 1 = правая, 2 = средняя")]
+    [SerializeField] private int dragMouseButton = 2;
+    [Tooltip("Скорость перетаскивания камеры")]
+    [SerializeField] private float dragSpeed = 1f;
+    [Tooltip("Минимальное перемещение (px) для распознавания перетаскивания")]
+    [SerializeField] private float dragThreshold = 5f;
+
+    private Camera cam;
+    private Vector3 dragOrigin;
+    private Vector2 pointerDownPos;
+    private bool isDraggingCamera;
+    private bool leftClickEligible;
+    private Building pressedBuilding;
+
     private void Start()
     {
+        cam = Camera.main;
         moneyText.text = money.ToString();
     }
 
-    void Update()
+    private void Update()
     {
-        // Мышь (ПК)
+        HandleCameraDrag();
+        HandleMouseClicks();
+        HandleTouchClicks();
+    }
+
+    private void HandleCameraDrag()
+    {
+        if (Input.GetMouseButtonDown(dragMouseButton))
+        {
+            dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
+            pointerDownPos = Input.mousePosition;
+            isDraggingCamera = false;
+        }
+
+        if (Input.GetMouseButton(dragMouseButton))
+        {
+            // Определяем, началось ли перетаскивание
+            if (!isDraggingCamera &&
+                Vector2.Distance(Input.mousePosition, pointerDownPos) > dragThreshold)
+            {
+                isDraggingCamera = true;
+            }
+
+            // Если перетаскиваем — двигаем камеру
+            if (isDraggingCamera)
+            {
+                Vector3 currentPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+                cam.transform.position += (dragOrigin - currentPoint) * dragSpeed;
+                dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
+            }
+        }
+    }
+
+    private void HandleMouseClicks()
+    {
+        // ЛКМ down
         if (Input.GetMouseButtonDown(0))
         {
-            DetectClick(Input.mousePosition);
+            leftClickEligible = true;
+            pointerDownPos = Input.mousePosition;
+            // Если та же кнопка используется для перетаскивания камеры и мы уже двинули мышь —
+            // клики не годятся
+            if (0 == dragMouseButton && isDraggingCamera)
+                leftClickEligible = false;
+
+            pressedBuilding = GetBuildingUnderCursor(Input.mousePosition);
         }
 
+        // ЛКМ удержание — ещё раз сбросим, если превысили порог
+        if (Input.GetMouseButton(0) && 0 == dragMouseButton)
+        {
+            if (leftClickEligible &&
+                Vector2.Distance(Input.mousePosition, pointerDownPos) > dragThreshold)
+            {
+                leftClickEligible = false;
+            }
+        }
+
+        // ЛКМ up
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (leftClickEligible)
+            {
+                Building released = GetBuildingUnderCursor(Input.mousePosition);
+                if (released != null && released == pressedBuilding)
+                {
+                    money = released.Click(money);
+                    moneyText.text = money.ToString();
+                }
+            }
+
+            leftClickEligible = false;
+            pressedBuilding = null;
+        }
+
+        // ПКМ — сразу выполняем действие
         if (Input.GetMouseButtonDown(1))
         {
-            RightClick(Input.mousePosition);
-        }
-
-        // Тап (мобилка)
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            DetectClick(Input.GetTouch(0).position);
-        }
-    }
-
-    void DetectClick(Vector2 screenPosition)
-    {
-        Vector2 worldPoint = Camera.main.ScreenToWorldPoint(screenPosition);
-
-        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-
-        if (hit.collider != null)
-        {
-
-            if (hit.collider.CompareTag("Building"))
+            Building b = GetBuildingUnderCursor(Input.mousePosition);
+            if (b != null)
             {
-                Building building = hit.collider.GetComponent<Building>();
-                money = building.Click(money);
+                money = b.RightClick(money);
                 moneyText.text = money.ToString();
             }
-                
         }
     }
 
-
-    void RightClick(Vector2 screenPosition)
+    private void HandleTouchClicks()
     {
-        Vector2 worldPoint = Camera.main.ScreenToWorldPoint(screenPosition);
+        if (Input.touchCount == 0) return;
+        Touch t = Input.GetTouch(0);
 
-        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-
-        if (hit.collider != null)
+        if (t.phase == TouchPhase.Began)
         {
-
-            if (hit.collider.CompareTag("Building"))
+            pointerDownPos = t.position;
+            leftClickEligible = true;
+            pressedBuilding = GetBuildingUnderCursor(t.position);
+        }
+        else if (t.phase == TouchPhase.Moved)
+        {
+            if (leftClickEligible &&
+                Vector2.Distance(t.position, pointerDownPos) > dragThreshold)
             {
-                Building building = hit.collider.GetComponent<Building>();
-                money = building.RightClick(money);
+                leftClickEligible = false;
+            }
+        }
+        else if (t.phase == TouchPhase.Ended)
+        {
+            if (leftClickEligible)
+            {
+                Building released = GetBuildingUnderCursor(t.position);
+                if (released != null && released == pressedBuilding)
+                {
+                    money = released.Click(money);
+                    moneyText.text = money.ToString();
+                }
             }
 
+            leftClickEligible = false;
+            pressedBuilding = null;
         }
     }
-}
 
+    private Building GetBuildingUnderCursor(Vector2 screenPos)
+    {
+        Vector2 worldPoint = cam.ScreenToWorldPoint(screenPos);
+        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+        if (hit.collider != null && hit.collider.CompareTag("Building"))
+            return hit.collider.GetComponent<Building>();
+        return null;
+    }
+}

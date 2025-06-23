@@ -214,6 +214,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   money: 10
   moneyText: {fileID: 1176897426}
+  dragMouseButton: 0
+  dragSpeed: 1
+  dragThreshold: 5
 --- !u!114 &226569998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +613,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.6666667, y: 2.6666667}
+    oldSize: {x: 1.3333334, y: 1.3333334}
     newSize: {x: 2.6666667, y: 2.6666667}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -731,7 +734,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.6666667, y: 2.6666667}
+    oldSize: {x: 1.3333334, y: 1.3333334}
     newSize: {x: 2.6666667, y: 2.6666667}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

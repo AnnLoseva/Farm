@@ -28,11 +28,11 @@ public class UIManager : MonoBehaviour
         UpdatePosition();
     }
 
-    public void Work()
+    public void Work(Recipe recipe)
     {
         if (myBuilding != null)
         {
-            myBuilding.StartWork();
+            myBuilding.StartWork(recipe);
             myBuilding = null;
         }
     }

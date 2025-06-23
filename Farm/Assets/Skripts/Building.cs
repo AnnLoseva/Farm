@@ -17,6 +17,7 @@ public class Building : MonoBehaviour
     private Animator animator;
     private UIManager uiManager;
     private Inventory inventory;
+    private Recipe currentRecipe;
 
     private void Start()
     {
@@ -48,15 +49,23 @@ public class Building : MonoBehaviour
 
     }
 
-    public void StartWork()
+    public void StartWork(Recipe recipe)
     {
         animator.SetBool("Is Working", true);
+        // Списываем ингредиенты из инвентаря
+        foreach (var ing in recipe.ingredients)
+            inventory.RemoveItem(ing.item, ing.amount);    
+
+        currentRecipe = recipe;
+
     }
 
     private void FinishWork()
     {
-        inventory.UseMoney(1);
+        inventory.AddItem(currentRecipe.result, currentRecipe.resultCount);
         animator.SetBool("Is Working", false);
+
+        Debug.Log("-----------Finished!-------------");
     }
 
     #region Building

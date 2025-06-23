@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
     [SerializeField] private int maxSlots = 20;    // максимальное число разных предметов
     [SerializeField] private int money = 100;
+    [SerializeField] private Item startItem;
+    [SerializeField] private int itemCount;
 
     // Добавить предмет
     public void AddItem(Item item, int count = 1)
@@ -17,7 +21,10 @@ public class Inventory : MonoBehaviour
             {
                 slot.amount += count;
                 OnInventoryChanged();
+                Debug.Log("*************" + item.itemName + " : " +  slot.amount + "************");
+
                 return;
+
             }
         }
 
@@ -25,7 +32,11 @@ public class Inventory : MonoBehaviour
         if (slots.Count < maxSlots)
         {
             slots.Add(new InventorySlot(item, count));
+
+            Debug.Log("*************" + item.itemName + " : " + slots[slots.Count-1].amount + "************");
+
             OnInventoryChanged();
+
         }
         else
         {
@@ -47,6 +58,9 @@ public class Inventory : MonoBehaviour
                     if (slot.amount == 0)
                         slots.RemoveAt(i);
                     OnInventoryChanged();
+
+                    Debug.Log("*************" + item.itemName + " : " + slot.amount + "************");
+
                     return true;
                 }
                 break;
@@ -65,6 +79,15 @@ public class Inventory : MonoBehaviour
     public void UseMoney(int amount)
     {
         money += amount;
+    }
+
+    private void Start()
+    {
+        if (slots.Count < maxSlots)
+        {
+            slots.Add(new InventorySlot(startItem ,itemCount));
+            OnInventoryChanged();
+        }
     }
 
     // Событие, если понадобится обновлять UI

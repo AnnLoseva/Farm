@@ -55,7 +55,7 @@ public class Building : MonoBehaviour
     public void StartWork(Recipe recipe)
     {
         // 1) Новое: проверяем наличие ингредиентов
-        if (!inventory.HasIngredients(recipe))
+        if (!inventory.CheckRecipe(recipe))
         {
             Debug.LogWarning($"Не хватает ингредиентов для {recipe.recipeName}");
             return;
@@ -72,7 +72,11 @@ public class Building : MonoBehaviour
 
     private void FinishWork()
     {
-        inventory.AddItem(currentRecipe.result, currentRecipe.resultCount);
+        for (int i = 0; i < currentRecipe.resultCount; i++)
+        {
+            inventory.AddItem(currentRecipe.result);
+
+        }
         animator.SetBool("Is Working", false);
 
         Debug.Log("-----------Finished!-------------");

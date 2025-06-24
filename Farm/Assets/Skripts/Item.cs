@@ -5,5 +5,6 @@ public class Item : ScriptableObject
 {
     public string itemName;    // уникальное имя
     public Sprite icon;        // иконка для UI
+    public int price;
     // при желании можно добавить: описание, цена, вес и т.п.
 }

@@ -5,35 +5,20 @@ using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
-    [SerializeField] private int maxSlots = 20;    // максимальное число разных предметов
+    [SerializeField] public List<Item> slots = new List<Item>();
+    [SerializeField] private int maxSlots = 30;    // максимальное число разных предметов
     [SerializeField] private int money = 100;
-    [SerializeField] private Item startItem;
-    [SerializeField] private int itemCount;
+    [SerializeField] private List<Item> startItems;
 
     // Добавить предмет
-    public void AddItem(Item item, int count = 1)
+    public void AddItem(Item item)
     {
-        // ищем существующий слот
-        foreach (var slot in slots)
-        {
-            if (slot.item == item)
-            {
-                slot.amount += count;
-                OnInventoryChanged();
-                Debug.Log("*************" + item.itemName + " : " +  slot.amount + "************");
-
-                return;
-
-            }
-        }
-
         // иначе создаём новый, если есть место
         if (slots.Count < maxSlots)
         {
-            slots.Add(new InventorySlot(item, count));
+            slots.Add(item);
 
-            Debug.Log("*************" + item.itemName + " : " + slots[slots.Count-1].amount + "************");
+            Debug.Log("*************   Added : " + item.itemName + "************");
 
             OnInventoryChanged();
 
@@ -45,49 +30,66 @@ public class Inventory : MonoBehaviour
     }
 
     // Убрать предмет
-    public bool RemoveItem(Item item, int count = 1)
-    {
-        for (int i = 0; i < slots.Count; i++)
-        {
-            var slot = slots[i];
-            if (slot.item == item)
-            {
-                if (slot.amount >= count)
-                {
-                    slot.amount -= count;
-                    if (slot.amount == 0)
-                        slots.RemoveAt(i);
-                    OnInventoryChanged();
 
-                    Debug.Log("*************" + item.itemName + " : " + slot.amount + "************");
-
-                    return true;
-                }
-                break;
-            }
-        }
-
-        Debug.LogWarning("Недостаточно предметов!");
-        return false;
-    }
-
-    public bool HasIngredients(Recipe recipe)
+    /// <summary>
+    /// Проверить, есть ли в инвентаре хотя бы <paramref name="count"/> штук <paramref name="item"/>.
+    /// </summary>
+    public bool CheckRecipe(Recipe recipe)
     {
         foreach (var ing in recipe.ingredients)
+        {
             if (!HasItem(ing.item, ing.amount))
                 return false;
+        }
         return true;
     }
 
-    // Проверить, есть ли в инвентаре хотя бы count штук item
+    /// <summary>
+    /// Проверить, есть ли в инвентаре хотя бы count штук item.
+    /// </summary>
     public bool HasItem(Item item, int count = 1)
     {
+        int found = 0;
         foreach (var slot in slots)
         {
-            if (slot.item == item && slot.amount >= count)
-                return true;
+            if (slot == item)
+            {
+                found++;
+                if (found >= count)
+                    return true;
+            }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Удалить из инвентаря <paramref name="count"/> штук <paramref name="item"/>.
+    /// Возвращает true, если удалено нужное количество, иначе false (и изменений не делает).
+    /// </summary>
+    public bool RemoveItem(Item item, int count = 1)
+    {
+        // сначала проверяем, что предметов достаточно
+        if (!HasItem(item, count))
+        {
+            Debug.LogWarning($"Попытка убрать {count}×{item.itemName}, а есть только {slots.FindAll(s => s == item).Count}");
+            return false;
+        }
+
+        // удаляем с конца (чтобы не смещать оставшиеся в начале)
+        int removed = 0;
+        for (int i = slots.Count - 1; i >= 0 && removed < count; i--)
+        {
+            if (slots[i] == item)
+            {
+                slots.RemoveAt(i);
+                removed++;
+            }
+        }
+
+        // уведомляем UI
+        OnInventoryChanged();
+        Debug.Log($"Удалено {removed}×{item.itemName}, осталось {slots.FindAll(s => s == item).Count}");
+        return true;
     }
 
 
@@ -105,7 +107,12 @@ public class Inventory : MonoBehaviour
     {
         if (slots.Count < maxSlots)
         {
-            slots.Add(new InventorySlot(startItem ,itemCount));
+            
+            for(int i = 0; i < startItems.Count; i++)
+            {
+                AddItem(startItems[i]);
+            }
+            
             OnInventoryChanged();
         }
     }

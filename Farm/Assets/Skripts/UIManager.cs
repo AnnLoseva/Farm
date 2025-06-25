@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Открыть поп-ап и «заполнить» кнопки рецептами
     /// </summary>
-    public void Show(Building building)
+    public void ShowPopUp(Building building)
     {
         currentBuilding = building;
         recipePopupUI.SetActive(true);
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
                 btn.onClick.AddListener(() =>
                 {
                     Work(r);
-                    Hide();
+                    HidePopUp();
                 });
             }
             else
@@ -67,7 +67,7 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        UpdatePosition();
+        UpdatePopUpPosition();
     }
 
 
@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void Hide()
+    public void HidePopUp()
     {
         recipePopupUI.SetActive(false);
         currentBuilding = null;
@@ -89,10 +89,10 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         if (recipePopupUI.activeSelf && currentBuilding != null)
-            UpdatePosition();
+            UpdatePopUpPosition();
     }
 
-    private void UpdatePosition()
+    private void UpdatePopUpPosition()
     {
         var sr = currentBuilding.GetComponent<SpriteRenderer>();
         Bounds b = sr.bounds;

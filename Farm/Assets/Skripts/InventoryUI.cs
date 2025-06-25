@@ -7,7 +7,11 @@ public class InventoryUI : MonoBehaviour
     [Header("References")]
     [SerializeField]private Transform itemsWindow;      // панель с GridLayoutGroup
     [SerializeField] private Inventory inventory;        // твой скрипт Inventory
+    [SerializeField] private Controler controler;
     [SerializeField] private GameObject slotPrefab;      // префаб «Item Button»
+
+    [Header("Money")]
+    [SerializeField] private List<Text> moneyText;
 
     [Header("Settings")]
     [SerializeField] private int totalSlots = 30;        // всего слотов в окне
@@ -17,6 +21,7 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
+
         // 1) Создаём нужное число слотов
         for (int i = 0; i < totalSlots; i++)
         {
@@ -39,9 +44,19 @@ public class InventoryUI : MonoBehaviour
         inventory.OnInventoryChanged -= RefreshUI;
     }
 
+    public void EnableController(bool enable)
+    {
+        controler.IsUsable(enable);
+    }
+
     private void RefreshUI()
     {
-        // 2) Для каждого слота заполняем данные или очищаем
+        foreach (Text mt in moneyText)
+        {
+            mt.text = inventory.UseMoney(0).ToString();
+        }
+
+        //  Для каждого слота заполняем данные или очищаем
         for (int i = 0; i < slotButtons.Count; i++)
         {
             var currentButton = slotButtons[i];
@@ -67,5 +82,12 @@ public class InventoryUI : MonoBehaviour
                 currentButton.interactable = false;
             }
         }
+
+
+        // Money
+        
+
+
+
     }
 }

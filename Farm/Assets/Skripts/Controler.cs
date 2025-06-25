@@ -3,9 +3,7 @@ using UnityEngine.UI;
 
 public class Controler : MonoBehaviour
 {
-    [Header("Money & UI")]
-    [SerializeField] private int money = 10;
-    [SerializeField] private Text moneyText;
+    
 
     [Header("Camera Drag Settings")]
     [Tooltip("0 = лева€, 1 = права€, 2 = средн€€")]
@@ -22,18 +20,21 @@ public class Controler : MonoBehaviour
     private bool leftClickEligible;
     private Building pressedBuilding;
     private UIManager uiManager;
+    private bool isUsable;
 
     private void Start()
     {
         cam = Camera.main;
-        moneyText.text = money.ToString();
         uiManager = GetComponent<UIManager>();
     }
 
     private void Update()
     {
-        HandleCameraDrag();
-        HandleMouseClicks();
+        if (isUsable)
+        {
+            HandleCameraDrag();
+            HandleMouseClicks();
+        }
     }
 
     private void HandleCameraDrag()
@@ -101,7 +102,7 @@ public class Controler : MonoBehaviour
                 }
                 else
                 {
-                    uiManager.Hide();
+                    uiManager.HidePopUp();
                 }
             }
 
@@ -127,5 +128,10 @@ public class Controler : MonoBehaviour
         if (hit.collider != null && hit.collider.CompareTag("Building"))
             return hit.collider.GetComponent<Building>();
         return null;
+    }
+
+    public void IsUsable(bool enable)
+    {
+        isUsable = enable;
     }
 }

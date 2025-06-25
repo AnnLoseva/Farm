@@ -37,7 +37,7 @@ public class Building : MonoBehaviour
 
         if (isBuild && !animator.GetBool("Is Working"))
         {
-            uiManager.Show(this);
+            uiManager.ShowPopUp(this);
         }
     }
 
@@ -85,7 +85,7 @@ public class Building : MonoBehaviour
     #region Building
     private void Build() //Начало стройки, вычитание цены от суммы
     {
-        if (inventory.CheckMoney() >= price)
+        if (inventory.UseMoney(0) >= price)
         {
             inventory.UseMoney(-price);
             animator.SetTrigger("Start Building");

@@ -5,10 +5,46 @@ using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
+    [Header("Items")]
     [SerializeField] public List<Item> slots = new List<Item>();
     [SerializeField] private int maxSlots = 30;    // максимальное число разных предметов
+
+
+    [Header("Money")]
     [SerializeField] private int money = 100;
-    [SerializeField] private List<Item> startItems;
+
+
+
+    [Header("Seeds")]
+    [SerializeField] private int maxSeeds = 99;
+    [SerializeField] private int buySeedsAmount = 10;
+
+    [Header("Corn")]
+    [SerializeField] private int cornSeedsAmount;
+    [SerializeField] private int cornSeedsPrice = 10;
+
+    [Header("Potato")]
+    [SerializeField] private int potatoSeedsAmount;
+    [SerializeField] private int potatoSeedsPrice = 10;
+
+    [Header("Beet")]
+    [SerializeField] private int beetSeedsAmount;
+    [SerializeField] private int beetSeedsPrice = 10;
+
+    [Header("Wheat")]
+    [SerializeField] private int wheatSeedsAmount;
+    [SerializeField] private int wheatSeedsPrice = 10;
+
+
+
+    public enum SeedType
+    {
+        Corn,
+        Potato,
+        Beet,
+        Wheat
+    }
+
 
     // Добавить предмет
     public void AddItem(Item item)
@@ -29,7 +65,38 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // Убрать предмет
+    /// <summary>
+    /// Покупает одно семя указанного типа, если хватает денег и места.
+    /// </summary>
+    public void BuySeed(SeedType type)
+    {
+        int price = GetSeedPrice(type);
+        int current = GetSeedAmount(type);
+
+        if (money < price)
+        {
+            Debug.LogWarning("Недостаточно денег!");
+            return;
+        }
+        if (current >= maxSeeds)
+        {
+            Debug.LogWarning("Достигнут лимит семян этого типа!");
+            return;
+        }
+
+        // отнимаем деньги и прибавляем семя
+        money -= price;
+        SetSeedAmount(type, current + buySeedsAmount);
+
+        Debug.Log($"Куплено 10 семян {type}. Теперь: {GetSeedAmount(type)} шт., денег осталось: {money}");
+
+        OnInventoryChanged();
+    }
+
+    public void BuySeedByIndex(int typeIndex)
+    {
+        BuySeed((SeedType)typeIndex);
+    }
 
     /// <summary>
     /// Проверить, есть ли в инвентаре хотя бы <paramref name="count"/> штук <paramref name="item"/>.
@@ -93,28 +160,81 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public int CheckMoney()
-    {
-        return money;
-    }
-
-    public void UseMoney(int amount)
+    /// <summary>
+    /// Использует деньги  <paramref name="money"/> += <paramref name="amount"/>
+    /// </summary>
+    public int UseMoney(int amount)
     {
         money += amount;
+
+        OnInventoryChanged();
+
+        return money;
+
+    }
+
+   
+    public int GetSeedPrice(SeedType type)
+    {
+        switch (type)
+        {
+            case SeedType.Corn: return cornSeedsPrice;
+            case SeedType.Potato: return potatoSeedsPrice;
+            case SeedType.Beet: return beetSeedsPrice;
+            case SeedType.Wheat: return wheatSeedsPrice;
+            default: return 0;
+        }
+    }
+
+    public int GetSeedAmount(SeedType type)
+    {
+        switch (type)
+        {
+            case SeedType.Corn: return cornSeedsAmount;
+            case SeedType.Potato: return potatoSeedsAmount;
+            case SeedType.Beet: return beetSeedsAmount;
+            case SeedType.Wheat: return wheatSeedsAmount;
+            default: return 0;
+        }
+    }
+
+    public void SetSeedAmount(SeedType type, int value)
+    {
+        switch (type)
+        {
+            case SeedType.Corn:
+                cornSeedsAmount = value;
+                break;
+            case SeedType.Potato:
+                potatoSeedsAmount = value;
+                break;
+            case SeedType.Beet:
+                beetSeedsAmount = value;
+                break;
+            case SeedType.Wheat:
+                wheatSeedsAmount = value;
+                break;
+        }
+    }
+
+    public void UseSeed(SeedType type)
+    {
+        int current = GetSeedAmount(type);
+
+        if (current <= 0)
+        {
+            Debug.LogWarning("Недостаточно семян!");
+            return;
+        }
+       
+        SetSeedAmount(type, current -1);
+
+        Debug.Log($"Посажено 1 семя {type}. Теперь: {GetSeedAmount(type)} шт., Семян осталось: {current}");
     }
 
     private void Start()
     {
-        if (slots.Count < maxSlots)
-        {
-            
-            for(int i = 0; i < startItems.Count; i++)
-            {
-                AddItem(startItems[i]);
-            }
-            
-            OnInventoryChanged();
-        }
+     
     }
 
     // Событие, если понадобится обновлять UI

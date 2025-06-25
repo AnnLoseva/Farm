@@ -20,7 +20,7 @@ public class Controler : MonoBehaviour
     private bool leftClickEligible;
     private Building pressedBuilding;
     private UIManager uiManager;
-    private bool isUsable;
+    private bool isUsable = true;
 
     private void Start()
     {

@@ -7,7 +7,6 @@ public class InventoryUI : MonoBehaviour
     [Header("References")]
     [SerializeField]private Transform itemsWindow;      // панель с GridLayoutGroup
     [SerializeField] private Inventory inventory;        // твой скрипт Inventory
-    [SerializeField] private Controler controler;
     [SerializeField] private GameObject slotPrefab;      // префаб «Item Button»
 
     [Header("Money")]
@@ -44,16 +43,13 @@ public class InventoryUI : MonoBehaviour
         inventory.OnInventoryChanged -= RefreshUI;
     }
 
-    public void EnableController(bool enable)
-    {
-        controler.IsUsable(enable);
-    }
 
     private void RefreshUI()
     {
-        foreach (Text mt in moneyText)
+        foreach (var mText in moneyText)
         {
-            mt.text = inventory.UseMoney(0).ToString();
+
+            mText.text = inventory.GetMoney().ToString() + "$";
         }
 
         //  Для каждого слота заполняем данные или очищаем

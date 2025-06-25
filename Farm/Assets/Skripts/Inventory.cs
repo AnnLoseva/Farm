@@ -170,10 +170,16 @@ public class Inventory : MonoBehaviour
         OnInventoryChanged();
 
         return money;
-
     }
 
-   
+    /// <summary>
+    /// Просто возвращает текущее количество денег, без побочных эффектов.
+    /// </summary>
+    public int GetMoney()
+    {
+        return money;
+    }
+
     public int GetSeedPrice(SeedType type)
     {
         switch (type)

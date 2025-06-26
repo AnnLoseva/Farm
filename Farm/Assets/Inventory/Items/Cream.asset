@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Cream
   icon: {fileID: -2421343691936151383, guid: 97748482d66cca34e944122babafcfcf, type: 3}
+  price: 50

@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class Controler : MonoBehaviour
 {
-    
-
     [Header("Camera Drag Settings")]
     [Tooltip("0 = левая, 1 = правая, 2 = средняя")]
     [SerializeField] private int dragMouseButton = 2;
@@ -19,6 +17,7 @@ public class Controler : MonoBehaviour
     private bool isDraggingCamera;
     private bool leftClickEligible;
     private Building pressedBuilding;
+    private Field pressedField;
     private UIManager uiManager;
     private bool isUsable = true;
 
@@ -48,14 +47,12 @@ public class Controler : MonoBehaviour
 
         if (Input.GetMouseButton(dragMouseButton))
         {
-            // Определяем, началось ли перетаскивание
             if (!isDraggingCamera &&
                 Vector2.Distance(Input.mousePosition, pointerDownPos) > dragThreshold)
             {
                 isDraggingCamera = true;
             }
 
-            // Если перетаскиваем — двигаем камеру
             if (isDraggingCamera)
             {
                 Vector3 currentPoint = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -67,20 +64,17 @@ public class Controler : MonoBehaviour
 
     private void HandleMouseClicks()
     {
-        // ЛКМ down
         if (Input.GetMouseButtonDown(0))
         {
             leftClickEligible = true;
             pointerDownPos = Input.mousePosition;
-            // Если та же кнопка используется для перетаскивания камеры и мы уже двинули мышь —
-            // клики не годятся
             if (0 == dragMouseButton && isDraggingCamera)
                 leftClickEligible = false;
 
             pressedBuilding = GetBuildingUnderCursor(Input.mousePosition);
+            pressedField = GetFieldUnderCursor(Input.mousePosition);
         }
 
-        // ЛКМ удержание — ещё раз сбросим, если превысили порог
         if (Input.GetMouseButton(0) && 0 == dragMouseButton)
         {
             if (leftClickEligible &&
@@ -90,33 +84,47 @@ public class Controler : MonoBehaviour
             }
         }
 
-        // ЛКМ up
         if (Input.GetMouseButtonUp(0))
         {
             if (leftClickEligible)
             {
-                Building released = GetBuildingUnderCursor(Input.mousePosition);
-                if (released != null && released == pressedBuilding)
+                Building releasedBuilding = GetBuildingUnderCursor(Input.mousePosition);
+                if (releasedBuilding != null && releasedBuilding == pressedBuilding)
                 {
-                    released.Click();
+                    releasedBuilding.Click();
                 }
                 else
                 {
-                    uiManager.HidePopUp();
+                    Field releasedField = GetFieldUnderCursor(Input.mousePosition);
+                    if (releasedField != null && releasedField == pressedField)
+                    {
+                        releasedField.Click();
+                    }
+                    else
+                    {
+                        uiManager.HidePopUps();
+                    }
                 }
             }
 
             leftClickEligible = false;
             pressedBuilding = null;
+            pressedField = null;
         }
 
-        // ПКМ — сразу выполняем действие
         if (Input.GetMouseButtonDown(1))
         {
             Building building = GetBuildingUnderCursor(Input.mousePosition);
             if (building != null)
             {
                 building.RightClick();
+                return;
+            }
+
+            Field field = GetFieldUnderCursor(Input.mousePosition);
+            if (field != null)
+            {
+                field.RightClick();
             }
         }
     }
@@ -127,6 +135,15 @@ public class Controler : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
         if (hit.collider != null && hit.collider.CompareTag("Building"))
             return hit.collider.GetComponent<Building>();
+        return null;
+    }
+
+    private Field GetFieldUnderCursor(Vector2 screenPos)
+    {
+        Vector2 worldPoint = cam.ScreenToWorldPoint(screenPos);
+        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+        if (hit.collider != null && hit.collider.CompareTag("Field"))
+            return hit.collider.GetComponent<Field>();
         return null;
     }
 

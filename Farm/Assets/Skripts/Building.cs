@@ -11,7 +11,7 @@ public class Building : MonoBehaviour
 {
     [Header("Production")]
     [Tooltip("Рецепты, которые может выполнять это здание")]
-    public List<Recipe> availableRecipes;
+    private List<Recipe> availableRecipes;
 
     [SerializeField] private int price;
     [SerializeField] private Sprite readySprite;
@@ -28,7 +28,7 @@ public class Building : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         ChangeColider();
-        uiManager = FindAnyObjectByType<UIManager>();
+        uiManager = UIManager.I;
         inventory = FindAnyObjectByType<Inventory>();
     }
 
@@ -37,8 +37,13 @@ public class Building : MonoBehaviour
 
         if (isBuild && !animator.GetBool("Is Working"))
         {
-            uiManager.ShowPopUp(this);
+            uiManager.ShowBuildingPopUp(this);
         }
+    }
+
+    public List<Recipe> BuildingRecipes()
+    {
+        return availableRecipes;
     }
 
     public void Click() // Любой клик по зданию

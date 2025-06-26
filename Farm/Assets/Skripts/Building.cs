@@ -11,7 +11,7 @@ public class Building : MonoBehaviour
 {
     [Header("Production")]
     [Tooltip("Рецепты, которые может выполнять это здание")]
-    private List<Recipe> availableRecipes;
+    [SerializeField]private List<Recipe> availableRecipes;
 
     [SerializeField] private int price;
     [SerializeField] private Sprite readySprite;

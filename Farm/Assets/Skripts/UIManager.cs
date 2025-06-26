@@ -117,6 +117,7 @@ public class UIManager : MonoBehaviour
                 Recipe r = recipes[i];
 
                 btn.GetComponent<Image>().sprite = r.result.icon;
+                btn.GetComponentInChildren<Text>().text = "";
 
                 btn.onClick.AddListener(() => onClickAction(r));
             }
@@ -141,6 +142,7 @@ public class UIManager : MonoBehaviour
                 Seed s = seeds[i];
 
                 btn.GetComponent<Image>().sprite = s.icon;
+                btn.GetComponentInChildren<Text>().text = inventory.GetSeedAmount(s).ToString();
 
                 btn.onClick.AddListener(() => onClickAction(s));
             }

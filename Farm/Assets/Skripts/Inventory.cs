@@ -70,6 +70,13 @@ public class Inventory : MonoBehaviour
         return result;
     }
 
+    public int GetSeedAmount(Seed seed)
+    {
+        SeedSlot slot = seedSlots.Find(s => s.seed == seed);
+
+        return slot.amount;
+    }
+
     public bool HasSeed(Seed seed, int amount = 1)
     {
         var slot = seedSlots.Find(s => s.seed == seed);

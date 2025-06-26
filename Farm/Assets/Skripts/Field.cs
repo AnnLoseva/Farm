@@ -58,6 +58,7 @@ public class Field : MonoBehaviour
     {
         isBuilt = true;
         spriteRenderer.sprite = readySprite;
+        animator.SetTrigger("Buy");
         UpdateCollider();
     }
 

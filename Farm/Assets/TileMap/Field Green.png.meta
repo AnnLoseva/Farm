@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8a20831aff2b1a74789f0fc721ced1f7
+guid: 7e6e290c6d3fd3d40873d82ca8842f12
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3498049990456373656
-    second: Field Green squere_0
+      213: 4188790195076824349
+    second: Field Green_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1000
+  spritePixelsToUnits: 1150
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Field Green squere_0
+      name: Field Green_0
       rect:
         serializedVersion: 2
         x: 44
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 891f5bfcee19b8030800000000000000
-      internalID: 3498049990456373656
+      spriteID: d1d71304d72912a30800000000000000
+      internalID: 4188790195076824349
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Field Green squere_0: 3498049990456373656
+      Field Green_0: 4188790195076824349
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

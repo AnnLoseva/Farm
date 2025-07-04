@@ -6,10 +6,8 @@ public class InventoryUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]private Transform itemsWindow;      // панель с GridLayoutGroup
-    [SerializeField] private Transform shopWindow;
     [SerializeField] private Inventory inventory;        // твой скрипт Inventory
     [SerializeField] private GameObject slotPrefab;      // префаб «Item Button»
-    [SerializeField] private GameObject shopSlotPrefab;
  
     [Header("Money")]
     [SerializeField] private List<Text> moneyText;
@@ -53,38 +51,49 @@ public class InventoryUI : MonoBehaviour
 
     private void RefreshUI()
     {
-        foreach (var mText in moneyText)
-        {
-
-            mText.text = inventory.GetMoney().ToString() + "$";
-        }
-
-        //  Для каждого слота заполняем данные или очищаем
         for (int i = 0; i < itemsSlotButtons.Count; i++)
         {
             var currentButton = itemsSlotButtons[i];
-            // Предполагаем, что внутри префаба:
-            // — Image для иконки лежит в дочернем объекте "Image"
-            // — Text для цены в дочернем объекте "Text (Legacy)"
             var iconImage = currentButton.transform.Find("Image").GetComponent<Image>();
             var priceText = currentButton.transform.Find("Text (Legacy)").GetComponent<Text>();
 
+
+            foreach (Text mText in moneyText)
+            {
+
+                mText.text = inventory.GetMoney().ToString() + "$";
+            }
+
             if (i < inventory.slots.Count)
             {
-                // есть предмет
-                var slot = inventory.slots[i];
-                iconImage.sprite = slot.icon;
-                priceText.text = slot.price.ToString() + "$";
+                var item = inventory.slots[i];
+
+                iconImage.sprite = item.icon;
+                priceText.text = item.price.ToString() + "$";
                 currentButton.interactable = true;
+
+                // Захватываем индекс
+                int index = i;
+
+                currentButton.onClick.RemoveAllListeners();
+                currentButton.onClick.AddListener(() =>
+                {
+                    inventory.ToggleSellItemAt(index);
+                    RefreshUI();
+                });
+
+                currentButton.image.color = inventory.IsItemMarkedForSale(index) ? Color.yellow : Color.white;
             }
             else
             {
-                // пустая ячейка
                 iconImage.sprite = null;
                 priceText.text = "";
                 currentButton.interactable = false;
+                currentButton.onClick.RemoveAllListeners();
+                currentButton.image.color = Color.white;
             }
         }
+    }
 
 
         // Money
@@ -94,4 +103,3 @@ public class InventoryUI : MonoBehaviour
 
     }
 
-}

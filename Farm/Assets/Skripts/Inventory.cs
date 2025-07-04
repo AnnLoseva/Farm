@@ -14,6 +14,9 @@ public class Inventory : MonoBehaviour
     [SerializeField] private List<SeedSlot> seedSlots = new List<SeedSlot>();
     [SerializeField] private int buySeedsAmount = 10;
 
+    // Список на продажу
+    private List<int> sellIndices = new List<int>();
+
     // Добавить предмет
     public void AddItem(Item item)
     {
@@ -73,7 +76,6 @@ public class Inventory : MonoBehaviour
     public int GetSeedAmount(Seed seed)
     {
         SeedSlot slot = seedSlots.Find(s => s.seed == seed);
-
         return slot.amount;
     }
 
@@ -157,6 +159,45 @@ public class Inventory : MonoBehaviour
     public int GetMoney()
     {
         return money;
+    }
+
+    // --- ПРОДАЖА ---
+
+    public void ToggleSellItemAt(int index)
+    {
+        if (sellIndices.Contains(index))
+            sellIndices.Remove(index);
+        else
+            sellIndices.Add(index);
+
+        OnInventoryChanged();
+    }
+
+    public bool IsItemMarkedForSale(int index)
+    {
+        return sellIndices.Contains(index);
+    }
+
+    /// <summary>
+    /// Продаёт все предметы в списке на продажу и очищает его.
+    /// </summary>
+    public void SellMarkedItems()
+    {
+        sellIndices.Sort();
+        sellIndices.Reverse(); // Удаляем с конца, чтобы индексы не смещались
+
+        foreach (int index in sellIndices)
+        {
+            if (index >= 0 && index < slots.Count)
+            {
+                Item item = slots[index];
+                money += item.price;
+                slots.RemoveAt(index);
+            }
+        }
+
+        sellIndices.Clear();
+        OnInventoryChanged();
     }
 
     private void Start()

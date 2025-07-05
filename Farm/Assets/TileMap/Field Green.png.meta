@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1150
+  spritePixelsToUnits: 1190
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -116,9 +116,9 @@ TextureImporter:
       name: Field Green_0
       rect:
         serializedVersion: 2
-        x: 44
+        x: 41
         y: 340
-        width: 1196
+        width: 1199
         height: 600
       alignment: 0
       pivot: {x: 0, y: 0}

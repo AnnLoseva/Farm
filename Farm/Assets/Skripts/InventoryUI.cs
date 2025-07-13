@@ -109,7 +109,7 @@ public class InventoryUI : MonoBehaviour
                     System.Text.StringBuilder sb = new System.Text.StringBuilder();
                     foreach (var item in sellList)
                     {
-                        sb.AppendLine($"{item.itemName}    {item.price}$");
+                        sb.AppendLine($"{item.itemName}  -  {item.price}$");
                     }
                     sellListText.text = sb.ToString();
                 }

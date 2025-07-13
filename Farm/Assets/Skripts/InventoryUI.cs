@@ -8,7 +8,9 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]private Transform itemsWindow;      // панель с GridLayoutGroup
     [SerializeField] private Inventory inventory;        // твой скрипт Inventory
     [SerializeField] private GameObject slotPrefab;      // префаб «Item Button»
- 
+    [SerializeField] private Text sellListText; // или TMP_Text, если используешь TextMeshPro
+
+
     [Header("Money")]
     [SerializeField] private List<Text> moneyText;
 
@@ -18,6 +20,7 @@ public class InventoryUI : MonoBehaviour
 
     private List<Button> itemsSlotButtons = new List<Button>();
     private List<Button> shopSlotButtons = new List<Button>();
+
 
 
     private void Awake()
@@ -68,6 +71,7 @@ public class InventoryUI : MonoBehaviour
             {
                 var item = inventory.slots[i];
 
+                iconImage.enabled = true;
                 iconImage.sprite = item.icon;
                 priceText.text = item.price.ToString() + "$";
                 currentButton.interactable = true;
@@ -86,11 +90,29 @@ public class InventoryUI : MonoBehaviour
             }
             else
             {
-                iconImage.sprite = null;
+                iconImage.enabled = false;
                 priceText.text = "";
                 currentButton.interactable = false;
                 currentButton.onClick.RemoveAllListeners();
                 currentButton.image.color = Color.white;
+            }
+
+            if (sellListText != null)
+            {
+                List<Item> sellList = inventory.GetSellList();
+                if (sellList.Count == 0)
+                {
+                    sellListText.text = "";
+                }
+                else
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    foreach (var item in sellList)
+                    {
+                        sb.AppendLine($"{item.itemName}    {item.price}$");
+                    }
+                    sellListText.text = sb.ToString();
+                }
             }
         }
     }

@@ -200,6 +200,24 @@ public class Inventory : MonoBehaviour
         OnInventoryChanged();
     }
 
+    /// <summary>
+    /// Возвращает список предметов, отмеченных на продажу.
+    /// </summary>
+    public List<Item> GetSellList()
+    {
+        List<Item> result = new List<Item>();
+        foreach (int index in sellIndices)
+        {
+            if (index >= 0 && index < slots.Count)
+            {
+                result.Add(slots[index]);
+            }
+        }
+        return result;
+    }
+
+
+
     private void Start()
     {
         // начальная инициализация при необходимости

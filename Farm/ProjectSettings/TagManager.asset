@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Building
   - Field
+  - Inventory
   layers:
   - Default
   - TransparentFX

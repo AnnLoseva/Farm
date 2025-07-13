@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Controler : MonoBehaviour
+public class Controller : MonoBehaviour
 {
     [Header("Camera Drag Settings")]
     [Tooltip("0 = левая, 1 = правая, 2 = средняя")]
@@ -17,9 +16,11 @@ public class Controler : MonoBehaviour
     private bool isDraggingCamera;
     private bool leftClickEligible;
     private Building pressedBuilding;
-    private Field pressedField;
     private UIManager uiManager;
     private bool isUsable = true;
+
+    [Header("Inventory UI")]
+    [SerializeField] private GameObject inventoryUI;  // Сюда закинь окно инвентаря
 
     private void Start()
     {
@@ -68,11 +69,11 @@ public class Controler : MonoBehaviour
         {
             leftClickEligible = true;
             pointerDownPos = Input.mousePosition;
+
             if (0 == dragMouseButton && isDraggingCamera)
                 leftClickEligible = false;
 
             pressedBuilding = GetBuildingUnderCursor(Input.mousePosition);
-            pressedField = GetFieldUnderCursor(Input.mousePosition);
         }
 
         if (Input.GetMouseButton(0) && 0 == dragMouseButton)
@@ -88,45 +89,63 @@ public class Controler : MonoBehaviour
         {
             if (leftClickEligible)
             {
-                Building releasedBuilding = GetBuildingUnderCursor(Input.mousePosition);
-                if (releasedBuilding != null && releasedBuilding == pressedBuilding)
+                // Открытие инвентаря
+                if (TryOpenInventory(Input.mousePosition))
+                    return;
+
+                // Поля
+                Field field = GetFieldUnderCursor(Input.mousePosition);
+                if (field != null)
                 {
-                    releasedBuilding.Click();
+                    field.Click();
+                    return;
+                }
+
+                // Здания
+                Building released = GetBuildingUnderCursor(Input.mousePosition);
+                if (released != null && released == pressedBuilding)
+                {
+                    released.Click();
                 }
                 else
                 {
-                    Field releasedField = GetFieldUnderCursor(Input.mousePosition);
-                    if (releasedField != null && releasedField == pressedField)
-                    {
-                        releasedField.Click();
-                    }
-                    else
-                    {
-                        uiManager.HidePopUps();
-                    }
+                    uiManager.HidePopUps();
                 }
             }
 
             leftClickEligible = false;
             pressedBuilding = null;
-            pressedField = null;
         }
 
         if (Input.GetMouseButtonDown(1))
         {
-            Building building = GetBuildingUnderCursor(Input.mousePosition);
-            if (building != null)
-            {
-                building.RightClick();
-                return;
-            }
-
             Field field = GetFieldUnderCursor(Input.mousePosition);
             if (field != null)
             {
                 field.RightClick();
+                return;
+            }
+
+            Building building = GetBuildingUnderCursor(Input.mousePosition);
+            if (building != null)
+            {
+                building.RightClick();
             }
         }
+    }
+
+
+    private bool TryOpenInventory(Vector2 screenPos)
+    {
+        Vector2 worldPoint = cam.ScreenToWorldPoint(screenPos);
+        RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+        if (hit.collider != null && hit.collider.CompareTag("Inventory"))
+        {
+            inventoryUI.SetActive(true);
+            IsUsable(false); // выключаем остальное взаимодействие
+            return true;
+        }
+        return false;
     }
 
     private Building GetBuildingUnderCursor(Vector2 screenPos)
@@ -146,6 +165,8 @@ public class Controler : MonoBehaviour
             return hit.collider.GetComponent<Field>();
         return null;
     }
+
+
 
     public void IsUsable(bool enable)
     {

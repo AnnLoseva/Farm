@@ -6,9 +6,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager I;
 
-    [Header("Popup и кнопки")]
-    public GameObject recipePopupUI;            // сама панелька
-    public List<Button> recipeButtons;          // ссылки на все кнопки-слоты в инспекторе
+    [Header("Popup пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public GameObject recipePopupUI;            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public List<Button> recipeButtons;          // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public Vector3 extraOffset = Vector3.zero;
 
     private RectTransform uiRect;
@@ -18,17 +18,18 @@ public class UIManager : MonoBehaviour
 
     private Inventory inventory;
 
-    void Awake()
+    private void Awake()
     {
-        I = this;
+         I = this;
         cam = Camera.main;
         uiRect = recipePopupUI.GetComponent<RectTransform>();
         recipePopupUI.SetActive(false);
-        inventory = FindObjectOfType<Inventory>();
+        inventory = Object.FindFirstObjectByType<Inventory>();
     }
 
+
     /// <summary>
-    /// Попап для здания
+    /// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     /// </summary>
     public void ShowBuildingPopUp(Building building)
     {
@@ -47,8 +48,25 @@ public class UIManager : MonoBehaviour
         UpdatePopUpPosition(building.transform);
     }
 
+    public void ShowAnimalPopUp(Animal animal)
+    {
+        currentBuilding = null;
+        currentField = null;
+
+        recipePopupUI.SetActive(true);
+        List<Recipe> recipes = animal.AnimalRecipes();
+
+        FillRecipeButtons(recipes, (recipe) =>
+        {
+            Work(recipe);
+            HidePopUps();
+        });
+
+        UpdatePopUpPosition(animal.transform);
+    }
+
     /// <summary>
-    /// Попап для поля (семена)
+    /// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ)
     /// </summary>
     public void ShowFieldPopUp(Field field)
     {
@@ -59,7 +77,7 @@ public class UIManager : MonoBehaviour
 
         List<Seed> seeds = field.AllSeeds();
 
-        // Показываем только те, которые есть в инвентаре
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         List<Seed> available = new List<Seed>();
         foreach (var s in seeds)
         {
